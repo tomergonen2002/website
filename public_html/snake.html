@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/thegoodmonolith">
+    <style>
+    body {
+      font-family: 'TheGoodMonolith', Arial, sans-serif;
+      background: url('img/Flowers backround.jpg') center center / cover no-repeat fixed;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+        .main-center {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100vw;
+        }
+        .game-container {
+            background: rgba(20, 20, 20, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 2px 24px rgba(0,0,0,0.25);
+            padding: 32px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 420px;
+            height: 420px;
+            margin: auto;
+        }
+        #snakeCanvas {
+            margin: 0 auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+            background: transparent;
+        }
+        .score {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #fff;
+        }
+        .home-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+        }
+        .home-link img {
+            width: 56px;
+            height: 56px;
+        }
+    </style>
+</head>
+<body>
+<a href="index.html" class="home-link"><img src="img/Home.gif" alt="Home" title="Home"></a>
+<div class="main-center">
+  <h1 style="text-align:center;">🐍 Snake Game</h1>
+  <div class="score" id="score">Score: 0</div>
+  <div class="game-container">
+    <canvas id="snakeCanvas" width="400" height="400"></canvas>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // --- Snake Game Logic ---
+  const canvas = document.getElementById('snakeCanvas');
+  const ctx = canvas.getContext('2d');
+  const gridSize = 20;
+  const tileCount = 20;
+  const appleImg = new Image();
+  appleImg.src = 'img/Red apple.png';
+  const pixelForestImg = new Image();
+  pixelForestImg.src = 'img/PixelForest.jpg';
+  let snake, direction, nextDirection, pendingDirection, score, gameOver, intervalId;
+  let food = { x: 0, y: 0 };
+  let speed = 180; // slower movement
+
+  function drawSnake() {
+    for (let i = 0; i < snake.length; i++) {
+      // Draw all segments as snake emoji
+      ctx.font = gridSize + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🐍', snake[i].x * gridSize + gridSize/2, snake[i].y * gridSize + gridSize/2);
+    }
+  }
+
+  function drawFood() {
+    // Draw apple emoji
+    ctx.font = gridSize + 'px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🍎', food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2);
+  }
+
+  function update() {
+    if (gameOver) return;
+    if (pendingDirection) {
+      nextDirection = pendingDirection;
+      pendingDirection = null;
+    }
+    direction = nextDirection;
+    let head = { x: snake[0].x, y: snake[0].y };
+    if (direction === 'LEFT') head.x--;
+    if (direction === 'UP') head.y--;
+    if (direction === 'RIGHT') head.x++;
+    if (direction === 'DOWN') head.y++;
+    // Wrap around edges
+    if (head.x < 0) head.x = tileCount - 1;
+    if (head.x >= tileCount) head.x = 0;
+    if (head.y < 0) head.y = tileCount - 1;
+    if (head.y >= tileCount) head.y = 0;
+    // Self collision
+    for (let i = 0; i < snake.length; i++) {
+      if (snake[i].x === head.x && snake[i].y === head.y) {
+        endGame();
+        return;
+      }
+    }
+    snake.unshift(head);
+    // Food collision
+    if (head.x === food.x && head.y === food.y) {
+      score++;
+      document.getElementById('score').textContent = 'Score: ' + score;
+      placeFood();
+    } else {
+      snake.pop();
+    }
+  }
+
+  function placeFood() {
+    let valid = false;
+    while (!valid) {
+      food.x = Math.floor(Math.random() * tileCount);
+      food.y = Math.floor(Math.random() * tileCount);
+      valid = !snake.some(part => part.x === food.x && part.y === food.y);
+    }
+  }
+
+  function endGame() {
+    gameOver = true;
+    clearInterval(intervalId);
+    setTimeout(() => {
+      alert('Game Over! Score: ' + score);
+      startGame();
+    }, 300);
+  }
+
+  function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Draw PixelForest background inside the game box
+    ctx.drawImage(pixelForestImg, 0, 0, canvas.width, canvas.height);
+    drawSnake();
+    drawFood();
+    update();
+  }
+
+  function startGame() {
+    if (intervalId) clearInterval(intervalId);
+    snake = [{ x: 9, y: 10 }];
+    direction = 'RIGHT';
+    nextDirection = 'RIGHT';
+    pendingDirection = null;
+    score = 0;
+    gameOver = false;
+    document.getElementById('score').textContent = 'Score: ' + score;
+    placeFood();
+    intervalId = setInterval(gameLoop, speed);
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft' && direction !== 'RIGHT') pendingDirection = 'LEFT';
+    if (event.key === 'ArrowUp' && direction !== 'DOWN') pendingDirection = 'UP';
+    if (event.key === 'ArrowRight' && direction !== 'LEFT') pendingDirection = 'RIGHT';
+    if (event.key === 'ArrowDown' && direction !== 'UP') pendingDirection = 'DOWN';
+  });
+
+  // Start game after both images load, or after 2 seconds fallback
+  let imagesLoaded = 0;
+  let gameStarted = false;
+  function tryStartGame() {
+    imagesLoaded++;
+    if (imagesLoaded === 2 && !gameStarted) {
+      gameStarted = true;
+      startGame();
+    }
+  }
+  pixelForestImg.onload = tryStartGame;
+  appleImg.onload = tryStartGame;
+  setTimeout(function() {
+    if (!gameStarted) {
+      gameStarted = true;
+      startGame();
+    }
+  }, 2000);
+});
+</script>
+</body>
+</html>

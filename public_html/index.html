@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/thegoodmonolith">
+    </head>
+    <body>
+        <div id="overlayText">
+            <h1>Welcome to my website</h1>
+            <nav>
+                <ul style="text-align:center;">
+                      <li><a href="#section1" class="section-link" data-section="section1">About</a></li>
+                      <li><a href="#section2" class="section-link" data-section="section2">Preparing a Curriculum Vitae / Wislawa Szymborska</a></li>
+                      <li><a href="snake.html" class="snake-emoji">&#x1F40D;</a></li>
+                      <li><a href="#section4" class="section-link" data-section="section4">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <img id="homeButton" class="home-button" src="img/Home.gif" alt="Home">
+        <script src="script.js" defer></script>
+
+        <section id="section1" class="section-content">
+            <h2>About</h2>
+            <p>
+                My name is Tomer, I'm currently studying Business Informatics at HTW Berlin.<br><br>
+                There's not much so see here yet :)<br>
+                This website will be continuously expanded as I learn the basics of HTML, CSS, and JavaScript.
+            </p>
+        </section><br>
+
+        <section id="section2" class="section-content">
+            <h2>Preparing a Curriculum Vitae</h2>
+            <h3>Wislawa Szymborska</h3>
+            <p>
+                What is required?<br> Fill out the application<br> and attach a curriculum vitae.<br><br> Regardless of life's length<br> its outline should be short.<br><br> Mandatory are conciseness and selectivity.<br> Substitution of addresses for landscapes<br> and firm dates for shaky memories.<br><br> Of all the loves only the marital will do,<br> and of all the children only those actually born.<br><br> More important than whom you know is who knows you.<br> Mention travel only if abroad.<br> Membership in what but without the whatfors.<br> Honors but without the wherefores.<br><br> Write as though you have never talked with yourself<br> and have always steered clear of yourself.<br><br> Say nothing about your dogs, cats and birds,<br> your precious keepsakes, friends and dreams.<br><br> Rather the price than the value, the title than the contents.<br> Rather the size of the shoes than where he is going,<br> the person they take you for.<br><br> Attach a snapshot too, with one ear exposed.<br> What counts is its shape, not what it hears.<br> And what does it hear?<br> The clatter of machines turning paper into pulp.
+            </p>
+        </section><br>
+
+        <section id="section3" class="section-content" style="text-align:center; margin: 40px 0;">
+                Tomer Gonen<br>
+                Berlin, Germany<br>
+                <script type="text/javascript">
+                    const emailE = 'gmail.com';
+                    const emailAddress = 'tomergonen2002' + '@' + emailE;
+                    document.write('<a href="mailto:' + emailAddress + '" style="color: red;">' + emailAddress + '</a>');
+                </script><br>
+                <img src="img/Linkedin.webp" alt="LinkedIn" style="width: 15px; height: 15px; vertical-align: middle;">
+                <a href="https://www.linkedin.com/in/tomer-gonen-15b0b7351" target="_blank" style="color: red;">LinkedIn</a>
+            </p>
+        </section>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="img/Left arrow.png" class="prev" alt="Previous">
+                    <div class="modal-section-content"></div>
+                    <img src="img/Right arrow.png" class="next" alt="Next">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
