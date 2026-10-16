@@ -1,193 +1,623 @@
-body {
-    margin: 0;
-    overflow-x: hidden;
-    background: url('img/Flowers backround.jpg') center center / cover no-repeat fixed;
-    font-family: 'Arial', sans-serif;
-    color: white;
-}
-
-#c {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-}
-
-#overlayText {
-    position: absolute;
-    top: 20%;
-    width: 100%;
-    text-align: center;
-    font-size: 24px;
-    z-index: 10;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    font-size: 24px;
-    font-family: 'TheGoodMonolith', sans-serif; 
-    color: white; 
-    text-decoration: none; 
-    margin: 10px; 
-}
-
-.snake-emoji {
-    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'EmojiOne', 'Twemoji', sans-serif !important;
-    font-size: 32px !important;
-    vertical-align: middle;
-    margin-left: 8px;
-}
-
-.home-button {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-}
-* {
-    margin: 0;
-    padding: 0;
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background: url('img/Flowers backround.jpg') center center / cover no-repeat fixed;
+  font-family: Tahoma, 'MS Sans Serif', Arial, sans-serif;
+  font-size: 13px;
+  overflow: hidden;
+  height: 100vh;
+  background: #008080;
 }
 
-canvas {
-    display: block;
+
+/* ================================================================
+   SHOW/HIDE DESKTOP vs MOBILE
+   ================================================================ */
+#desktop { display: block; }
+#mobile  { display: none;  }
+
+@media (max-width: 640px) {
+  #desktop { display: none;  }
+  #mobile  { display: flex; flex-direction: column; }
 }
 
-#overlayText {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 30px;
-    font-family: 'TheGoodMonolith', Arial, sans-serif;
-    text-align: center;
+
+/* ================================================================
+   DESKTOP
+   ================================================================ */
+#desktop {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: url('img/Wallpaper.png') center / cover no-repeat;
 }
 
-#overlayText nav {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
+/* ---- Desktop icons ---- */
+.d-icon {
+  position: absolute;
+  width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 2px;
 }
 
-#overlayText nav ul {
-    list-style-type: none;
-    margin: 20px 0 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.d-icon:focus {
+  outline: 1px dashed rgba(255,255,255,0.7);
+  outline-offset: 2px;
 }
 
-#overlayText nav ul li {
-    display: block;
-    margin-bottom: 20px;
+.d-icon.selected,
+.d-icon:hover {
+  background: rgba(49,106,197,0.55);
+  outline: 1px dashed rgba(255,255,255,0.5);
 }
 
-#overlayText nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
+.d-icon img {
+  width: 48px;
+  height: 48px;
+  display: block;
+  pointer-events: none;
 }
 
-#overlayText nav ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.d-icon span {
+  font-size: 12px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.85), -1px -1px 2px rgba(0,0,0,0.5);
+  text-align: center;
+  line-height: 1.25;
+  word-break: break-word;
+  pointer-events: none;
 }
 
-section {
-    margin: 20px 0;
+
+/* ---- XP window overlay ---- */
+#xp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  padding-bottom: 40px; /* clear taskbar */
 }
 
-.section-content {
-    display: none;
+#xp-overlay[aria-hidden="true"] {
+  display: none;
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: auto;
-    overflow: auto;
-    background-color: transparent;
+#xp-win {
+  width: min(820px, 90vw);
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.7);
 }
 
-.modal-content {
-    background-color: transparent;
-    padding: 20px;
-    border: none;
-    width: auto;
-    position: relative;
-    font-family: 'TheGoodMonolith', Arial, sans-serif;
-    color: white;
+#xp-titlebar {
+  cursor: move;
+  flex-shrink: 0;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+/* IE-style toolbar */
+#xp-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 6px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #b0b0b0;
+  flex-shrink: 0;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.xp-nav-btn {
+  width: 30px;
+  height: 26px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.modal-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.xp-nav-btn:hover {
+  border-color: #316ac5;
+  background: rgba(49,106,197,0.1);
 }
 
-.modal-section-content {
-    flex-grow: 1;
-    padding: 0 10px;
+.xp-nav-btn img {
+  width: 20px;
+  height: 20px;
 }
 
-.prev,
-.next {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
+.xp-address-bar {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #7a7a7a;
+  border-radius: 1px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-family: Tahoma, sans-serif;
+  color: #333;
+  margin-left: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.prev:hover,
-.next:hover {
-    opacity: 0.7;
+#xp-body {
+  background: #fff;
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
 }
 
-.home-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
+#xp-win.maximized {
+  width: 100vw !important;
+  max-height: calc(100vh - 40px) !important;
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
 }
+
+
+/* ---- Taskbar ---- */
+#taskbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 40px;
+  background: linear-gradient(180deg, #245edb 0%, #3176d2 6%, #245edb 10%, #1f56c8 94%, #1243a0 100%);
+  border-top: 1px solid #0b3d91;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px 0 0;
+  z-index: 10000;
+}
+
+#start-btn {
+  height: 100%;
+  padding: 0 14px 0 8px;
+  background: linear-gradient(180deg, #5fb633 0%, #3d8c1e 6%, #4da227 50%, #3d8c1e 94%, #2c6c12 100%);
+  border: none;
+  border-right: 1px solid #1f6212;
+  border-radius: 0 14px 14px 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Trebuchet MS', Tahoma, sans-serif;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 84px;
+}
+
+#start-btn:hover {
+  background: linear-gradient(180deg, #74ce40 0%, #52a02a 6%, #62b232 50%, #52a02a 94%, #3d8018 100%);
+}
+
+#start-btn:active {
+  background: linear-gradient(180deg, #3d8c1e 0%, #5fb633 100%);
+}
+
+.start-logo { width: 20px; height: 20px; }
+
+.tb-sep {
+  width: 2px;
+  height: 28px;
+  background: linear-gradient(to right, #0c3d91, #3176d2);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+#tb-windows {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.tb-btn {
+  height: 28px;
+  padding: 0 10px;
+  background: linear-gradient(180deg, #3a78d4 0%, #2260bf 50%, #1e57b2 100%);
+  border: 1px solid #0c3d91;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 12px;
+  font-family: Tahoma, sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: inset 0 1px rgba(255,255,255,0.12);
+}
+
+.tb-btn img { width: 16px; height: 16px; flex-shrink: 0; }
+
+.tb-btn.active {
+  background: linear-gradient(180deg, #1e57b2 0%, #2c6ecf 50%, #3a78d4 100%);
+  border-color: #0a2d70;
+  box-shadow: inset 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+#tb-clock {
+  color: #fff;
+  font-size: 12px;
+  padding: 0 10px;
+  white-space: nowrap;
+  border-left: 1px solid rgba(255,255,255,0.15);
+  min-width: 52px;
+  text-align: center;
+}
+
+
+/* ---- Start menu ---- */
+#start-menu {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  width: 320px;
+  background: #fff;
+  border: 2px solid #0a246a;
+  border-bottom: none;
+  box-shadow: 4px -4px 12px rgba(0,0,0,0.5);
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  z-index: 10001;
+}
+
+#start-menu[aria-hidden="true"] { display: none; }
+
+.sm-header {
+  background: linear-gradient(to right, #0b55a4, #3a8cd0);
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sm-avatar {
+  width: 42px;
+  height: 42px;
+  background: #fff;
+  color: #0b55a4;
+  border-radius: 2px;
+  border: 2px solid rgba(255,255,255,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.sm-body {
+  display: flex;
+}
+
+.sm-left {
+  flex: 1;
+  padding: 6px 0;
+  border-right: 1px solid #ccc;
+}
+
+.sm-right {
+  width: 130px;
+  background: #d5e9ff;
+  padding: 6px 0;
+}
+
+.sm-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: Tahoma, sans-serif;
+  text-align: left;
+  color: #000;
+}
+
+.sm-item:hover { background: #316ac5; color: #fff; }
+.sm-item img { width: 24px; height: 24px; flex-shrink: 0; }
+
+.sm-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+  font-family: Tahoma, sans-serif;
+}
+
+.sm-link:hover { background: #316ac5; color: #fff; }
+.sm-link img { width: 20px; height: 20px; }
+
+
+/* ================================================================
+   CONTENT STYLES  (shared between XP windows and mobile cards)
+   ================================================================ */
+
+/* About */
+.cnt-about {
+  line-height: 1.7;
+}
+
+.cnt-about h2 {
+  font-size: 16px;
+  margin-bottom: 14px;
+  color: #0a246a;
+}
+
+.cnt-about p { margin-bottom: 8px; }
+
+/* Gallery */
+.gallery-hint {
+  color: #888;
+  font-style: italic;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.gallery-frame {
+  aspect-ratio: 4 / 3;
+  border: 2px dashed #ccc;
+  background: #f8f8f8;
+  border-radius: 2px;
+}
+
+/* Fun Facts — Notepad */
+.cnt-funfacts {
+  height: 100%;
+}
+
+.notepad {
+  border: 1px solid #aaa;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.notepad-menu {
+  background: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+  padding: 2px 8px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.notepad-body {
+  flex: 1;
+  padding: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  background: #fff;
+  white-space: pre-wrap;
+}
+
+.notepad-hint {
+  color: #bbb;
+  font-style: italic;
+}
+
+/* Contact */
+.cnt-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 0;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.contact-row img {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.contact-row a {
+  color: #0000cc;
+  text-decoration: none;
+}
+
+.contact-row a:hover { text-decoration: underline; }
+
+
+/* ================================================================
+   MOBILE
+   ================================================================ */
+#mobile {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: url('img/Wallpaper.png') center / cover no-repeat;
+  flex-direction: column;
+}
+
+#cards-wrapper {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+#cards-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+  transition: transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.m-card {
+  min-width: 100vw;
+  height: 100%;
+  padding: 14px 14px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.m-card-titlebar {
+  background: linear-gradient(180deg, #0b55a4 0%, #3a8cd0 100%);
+  color: #fff;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 8px 8px 0 0;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px rgba(255,255,255,0.2);
+}
+
+.m-card-titlebar img {
+  width: 20px;
+  height: 20px;
+}
+
+.m-card-body {
+  flex: 1;
+  background: #fff;
+  overflow-y: auto;
+  padding: 16px;
+  border: 2px solid #0a246a;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+
+/* ---- Dot navigation ---- */
+#dot-nav {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: 1px solid rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.dot.active {
+  background: #fff;
+  transform: scale(1.25);
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* ================================================================
+   SNAKE GAME
+   ================================================================ */
+.cnt-games {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.snake-hdr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 0 2px 4px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 4px;
+}
+
+.snake-hdr-title { font-weight: bold; color: #0a246a; }
+.snake-hdr-score { color: #444; font-family: 'Courier New', monospace; }
+
+.snake-canvas {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1;
+  image-rendering: pixelated;
+  border: 2px solid #ccc;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+/* D-pad */
+.snake-dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.dpad-row {
+  display: flex;
+  gap: 2px;
+}
+
+.dpad-btn {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  background: linear-gradient(180deg, #f5f5f5, #e0e0e0);
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.dpad-btn:active { background: linear-gradient(180deg, #ddd, #ccc); }
+.dpad-restart    { font-size: 20px; color: #555; }

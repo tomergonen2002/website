@@ -1,61 +1,250 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/thegoodmonolith">
-    </head>
-    <body>
-        <div id="overlayText">
-            <h1>Welcome to my website</h1>
-            <nav>
-                <ul style="text-align:center;">
-                      <li><a href="#section1" class="section-link" data-section="section1">About</a></li>
-                      <li><a href="#section2" class="section-link" data-section="section2">Preparing a Curriculum Vitae / Wislawa Szymborska</a></li>
-                      <li><a href="snake.html" class="snake-emoji">&#x1F40D;</a></li>
-                      <li><a href="#section4" class="section-link" data-section="section4">Contact</a></li>
-                </ul>
-            </nav>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tomer Gonen</title>
+  <link rel="stylesheet" href="https://unpkg.com/xp.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================================================================
+     DESKTOP  (≥641px)
+     ================================================================ -->
+<div id="desktop">
+
+  <div class="d-icon" data-app="about"    style="left:16px;top:20px"  tabindex="0">
+    <img src="img/My Computer.png" alt="About">
+    <span>About</span>
+  </div>
+  <div class="d-icon" data-app="gallery"  style="left:16px;top:110px" tabindex="0">
+    <img src="img/My Pictures.png" alt="Gallery">
+    <span>Gallery</span>
+  </div>
+  <div class="d-icon" data-app="funfacts" style="left:16px;top:200px" tabindex="0">
+    <img src="img/Whistler - Help and Support.png" alt="Fun Facts">
+    <span>Fun Facts</span>
+  </div>
+  <div class="d-icon" data-app="games"    style="left:16px;top:290px" tabindex="0">
+    <img src="img/My Games.png" alt="Games">
+    <span>My Games</span>
+  </div>
+  <div class="d-icon" data-app="contact"  style="left:16px;top:380px" tabindex="0">
+    <img src="img/Email.png" alt="Contact">
+    <span>Contact</span>
+  </div>
+
+  <!-- XP window overlay -->
+  <div id="xp-overlay" aria-hidden="true">
+    <div class="window" id="xp-win">
+      <div class="title-bar" id="xp-titlebar">
+        <div class="title-bar-text" id="xp-title">Window</div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize" id="btn-min"></button>
+          <button aria-label="Maximize" id="btn-max"></button>
+          <button aria-label="Close"    id="btn-close"></button>
         </div>
-        <img id="homeButton" class="home-button" src="img/Home.gif" alt="Home">
-        <script src="script.js" defer></script>
+      </div>
 
-        <section id="section1" class="section-content">
-            <h2>About</h2>
-            <p>
-                My name is Tomer, I'm currently studying Business Informatics at HTW Berlin.<br><br>
-                There's not much so see here yet :)<br>
-                This website will be continuously expanded as I learn the basics of HTML, CSS, and JavaScript.
-            </p>
-        </section><br>
-
-        <section id="section2" class="section-content">
-            <h2>Preparing a Curriculum Vitae</h2>
-            <h3>Wislawa Szymborska</h3>
-            <p>
-                What is required?<br> Fill out the application<br> and attach a curriculum vitae.<br><br> Regardless of life's length<br> its outline should be short.<br><br> Mandatory are conciseness and selectivity.<br> Substitution of addresses for landscapes<br> and firm dates for shaky memories.<br><br> Of all the loves only the marital will do,<br> and of all the children only those actually born.<br><br> More important than whom you know is who knows you.<br> Mention travel only if abroad.<br> Membership in what but without the whatfors.<br> Honors but without the wherefores.<br><br> Write as though you have never talked with yourself<br> and have always steered clear of yourself.<br><br> Say nothing about your dogs, cats and birds,<br> your precious keepsakes, friends and dreams.<br><br> Rather the price than the value, the title than the contents.<br> Rather the size of the shoes than where he is going,<br> the person they take you for.<br><br> Attach a snapshot too, with one ear exposed.<br> What counts is its shape, not what it hears.<br> And what does it hear?<br> The clatter of machines turning paper into pulp.
-            </p>
-        </section><br>
-
-        <section id="section3" class="section-content" style="text-align:center; margin: 40px 0;">
-                Tomer Gonen<br>
-                Berlin, Germany<br>
-                <script type="text/javascript">
-                    const emailE = 'gmail.com';
-                    const emailAddress = 'tomergonen2002' + '@' + emailE;
-                    document.write('<a href="mailto:' + emailAddress + '" style="color: red;">' + emailAddress + '</a>');
-                </script><br>
-                <img src="img/Linkedin.webp" alt="LinkedIn" style="width: 15px; height: 15px; vertical-align: middle;">
-                <a href="https://www.linkedin.com/in/tomer-gonen-15b0b7351" target="_blank" style="color: red;">LinkedIn</a>
-            </p>
-        </section>
-
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img src="img/Left arrow.png" class="prev" alt="Previous">
-                    <div class="modal-section-content"></div>
-                    <img src="img/Right arrow.png" class="next" alt="Next">
-                </div>
-            </div>
+      <!-- IE-style toolbar with Back + Home + address bar -->
+      <div id="xp-toolbar">
+        <button class="xp-nav-btn" id="btn-nav-back" title="Back">
+          <img src="img/Whistler - Back.png" alt="Back">
+        </button>
+        <button class="xp-nav-btn" id="btn-nav-home" title="Desktop">
+          <img src="img/Whistler - IE Home.png" alt="Home">
+        </button>
+        <div class="xp-address-bar">
+          <span id="xp-address">My Computer</span>
         </div>
-    </body>
+      </div>
+
+      <div class="window-body" id="xp-body"></div>
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div id="taskbar">
+    <button id="start-btn">
+      <img src="img/My Computer.png" class="start-logo" alt="">
+      start
+    </button>
+    <div class="tb-sep"></div>
+    <div id="tb-windows"></div>
+    <div id="tb-clock"></div>
+  </div>
+
+  <!-- Start menu -->
+  <div id="start-menu" aria-hidden="true">
+    <div class="sm-header">
+      <div class="sm-avatar">TG</div>
+      <span>Tomer Gonen</span>
+    </div>
+    <div class="sm-body">
+      <div class="sm-left">
+        <button class="sm-item" data-app="about">
+          <img src="img/My Computer.png" alt=""> About
+        </button>
+        <button class="sm-item" data-app="gallery">
+          <img src="img/My Pictures.png" alt=""> Gallery
+        </button>
+        <button class="sm-item" data-app="funfacts">
+          <img src="img/Whistler - Help and Support.png" alt=""> Fun Facts
+        </button>
+        <button class="sm-item" data-app="games">
+          <img src="img/My Games.png" alt=""> My Games
+        </button>
+        <button class="sm-item" data-app="contact">
+          <img src="img/Email.png" alt=""> Contact
+        </button>
+      </div>
+      <div class="sm-right">
+        <a class="sm-link" href="https://www.linkedin.com/in/tomer-gonen-15b0b7351" target="_blank" rel="noopener">
+          <img src="img/Linkedin.webp" alt=""> LinkedIn
+        </a>
+        <a class="sm-link" href="mailto:tomergonen2002@gmail.com">
+          <img src="img/USB.png" alt=""> Links
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#desktop -->
+
+
+<!-- ================================================================
+     MOBILE  (≤640px)
+     ================================================================ -->
+<div id="mobile">
+
+  <div id="cards-wrapper">
+    <div id="cards-track">
+
+      <div class="m-card" data-app="about">
+        <div class="m-card-titlebar">
+          <img src="img/My Computer.png" alt="">
+          <span>About</span>
+        </div>
+        <div class="m-card-body"></div>
+      </div>
+
+      <div class="m-card" data-app="gallery">
+        <div class="m-card-titlebar">
+          <img src="img/My Pictures.png" alt="">
+          <span>Gallery</span>
+        </div>
+        <div class="m-card-body"></div>
+      </div>
+
+      <div class="m-card" data-app="funfacts">
+        <div class="m-card-titlebar">
+          <img src="img/Whistler - Help and Support.png" alt="">
+          <span>Fun Facts</span>
+        </div>
+        <div class="m-card-body"></div>
+      </div>
+
+      <div class="m-card" data-app="games">
+        <div class="m-card-titlebar">
+          <img src="img/My Games.png" alt="">
+          <span>My Games</span>
+        </div>
+        <div class="m-card-body"></div>
+      </div>
+
+      <div class="m-card" data-app="contact">
+        <div class="m-card-titlebar">
+          <img src="img/Email.png" alt="">
+          <span>Contact</span>
+        </div>
+        <div class="m-card-body"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="dot-nav">
+    <span class="dot" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+    <span class="dot" data-index="2"></span>
+    <span class="dot" data-index="3"></span>
+    <span class="dot" data-index="4"></span>
+  </div>
+
+</div><!-- /#mobile -->
+
+
+<!-- ================================================================
+     CONTENT TEMPLATES  (hidden; cloned into windows & cards by JS)
+     ================================================================ -->
+
+<template id="tpl-about">
+  <div class="cnt-about">
+    <h2>Hi there, I'm Tomer</h2>
+    <p>I'm 24, currently studying Business Informatics at HTW Berlin, and looking for an internship or working student opportunity.</p>
+    <p>This site will continue to be updated with new content and features, so check back often! ;)</p>
+  </div>
+</template>
+
+<template id="tpl-gallery">
+  <div class="cnt-gallery">
+    <p class="gallery-hint">Photos coming soon.</p>
+    <div class="gallery-grid">
+      <div class="gallery-frame"></div>
+      <div class="gallery-frame"></div>
+      <div class="gallery-frame"></div>
+      <div class="gallery-frame"></div>
+      <div class="gallery-frame"></div>
+      <div class="gallery-frame"></div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-funfacts">
+  <div class="cnt-funfacts">
+    <div class="notepad">
+      <div class="notepad-menu">File&nbsp;&nbsp;Edit&nbsp;&nbsp;Format&nbsp;&nbsp;View&nbsp;&nbsp;Help</div>
+      <div class="notepad-body">
+        <span class="notepad-hint">Fun facts loading...</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-games">
+  <div class="cnt-games">
+    <div class="snake-hdr">
+      <span class="snake-hdr-title">Snake</span>
+      <span class="snake-hdr-score">Score: <span class="snake-score-val">0</span></span>
+    </div>
+    <canvas class="snake-canvas" width="300" height="300"></canvas>
+    <div class="snake-dpad">
+      <div class="dpad-row"><button class="dpad-btn" data-dir="up">▲</button></div>
+      <div class="dpad-row">
+        <button class="dpad-btn" data-dir="left">◀</button>
+        <button class="dpad-btn dpad-restart" data-dir="restart" title="Restart">↺</button>
+        <button class="dpad-btn" data-dir="right">▶</button>
+      </div>
+      <div class="dpad-row"><button class="dpad-btn" data-dir="down">▼</button></div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-contact">
+  <div class="cnt-contact">
+    <div class="contact-row">
+      <img src="img/Email.png" alt="">
+      <a href="mailto:tomergonen2002@gmail.com">tomergonen2002@gmail.com</a>
+    </div>
+    <div class="contact-row">
+      <img src="img/Linkedin.webp" alt="">
+      <a href="https://www.linkedin.com/in/tomer-gonen-15b0b7351" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</template>
+
+
+<script src="script.js"></script>
+</body>
 </html>
