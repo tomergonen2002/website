@@ -80,18 +80,9 @@ export default {
 .modal-overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); }
 .window { width:720px; box-shadow:0 12px 48px rgba(0,0,0,0.6); }
 .window .window-body { background:#fff; padding:12px }
-
-/* XP-style title bar and button sprite
-  Place the attached sprite image at: spa/public/img/titlebar-buttons.png
-  The sprite is expected to contain three buttons horizontally (minimize, maximize, close).
-*/
 .title-bar { display:flex; align-items:center; justify-content:space-between; padding:6px 8px; background:linear-gradient(#0b57a4,#0a4f95); color:#fff }
 .title-bar-text { font-weight:700 }
 .title-bar-controls { display:flex; gap:6px }
 .title-btn { width:28px; height:18px; border:none; background-repeat:no-repeat; background-size:auto 100%; cursor:pointer; padding:0 }
 .title-btn.close { background-image: url('/img/titlebar-buttons.png'); background-position: -64px 0 }
-
-/* Only the Close (X) control is used here per XP.css title-bar pattern.
-   Minimize/Maximize controls are intentionally omitted. */
-
 </style>
